@@ -110,6 +110,7 @@
 </li>
 <li><p>图像or视频质量</p>
 <a id="more"></a>
+
 </li>
 </ul>
 <h1 id="活体检测的不同输入形式"><a href="#活体检测的不同输入形式" class="headerlink" title="活体检测的不同输入形式"></a>活体检测的不同输入形式</h1><h2 id="近红外NIR"><a href="#近红外NIR" class="headerlink" title="近红外NIR"></a>近红外NIR</h2><p>由于NIR的光谱波段与可见光VIS不同，故真实人脸及非活体载体对于近红外波段的吸收和反射强度也不同，即也可通过近红外相机出来的图像来活体检测。从出来的图像来说，近红外图像对屏幕攻击的区分度较大，对高清彩色纸张打印的区分度较小。</p>
@@ -126,11 +127,9 @@
 <p><img src="1581493465754.png" alt="1581493465754"></p>
 <h3 id="使用一次拍照的重聚焦图像"><a href="#使用一次拍照的重聚焦图像" class="headerlink" title="使用一次拍照的重聚焦图像"></a>使用一次拍照的重聚焦图像</h3><p>原理是可以从两张重聚焦图像的差异中，估计出深度信息；从特征提取来说，真实人脸与非活体人脸的3D人脸模型不同，可提取差异图像中的 亮度分布特征+聚焦区域锐利程度特征+频谱直方图特征。</p>
 <h1 id="活体检测衡量指标"><a href="#活体检测衡量指标" class="headerlink" title="活体检测衡量指标"></a>活体检测衡量指标</h1><p>衡量人脸识别算法性能的优劣有很多不同的标准，比如FAR，FRR，TAR等。</p>
-<h3 id="TPR"><a href="#TPR" class="headerlink" title="TPR"></a>TPR</h3><p>TPR （True Positive Rate）真正类率，又叫真阳率，代表预测是异常实际也是异常的样本数，占实际总异常数的比例——数值越大，性能越好：</p>
-<script type="math/tex; mode=display">
-TPR=TP/(TP+FN)</script><h3 id="FPR"><a href="#FPR" class="headerlink" title="FPR"></a>FPR</h3><p>FPR （False Positive Rate）假正类率，又叫假阳率，代表预测是异常但实际是正常的样本数，占实际正常总数的比例——数值越小，性能越好：</p>
-<script type="math/tex; mode=display">
-FPR=FP/(FP+TN)</script><h3 id="TPR-FPR"><a href="#TPR-FPR" class="headerlink" title="TPR@FPR"></a>TPR@FPR</h3><p>TPR@10e-4 FPR即为当FPR为10e-4时候的TPR的数值，之所以采用这种形式是因为在不同的FPR下度量的TPR是会不同的。这个数值越大，说明算法性能越好。</p>
+<h3 id="TPR"><a href="#TPR" class="headerlink" title="TPR"></a>TPR</h3><p>TPR （True Positive Rate）真正类率，又叫真阳率，代表预测是异常实际也是异常的样本数，占实际总异常数的比例——数值越大，性能越好：<br>$$<br>TPR=TP/(TP+FN)<br>$$</p>
+<h3 id="FPR"><a href="#FPR" class="headerlink" title="FPR"></a>FPR</h3><p>FPR （False Positive Rate）假正类率，又叫假阳率，代表预测是异常但实际是正常的样本数，占实际正常总数的比例——数值越小，性能越好：<br>$$<br>FPR=FP/(FP+TN)<br>$$</p>
+<h3 id="TPR-FPR"><a href="#TPR-FPR" class="headerlink" title="TPR@FPR"></a>TPR@FPR</h3><p>TPR@10e-4 FPR即为当FPR为10e-4时候的TPR的数值，之所以采用这种形式是因为在不同的FPR下度量的TPR是会不同的。这个数值越大，说明算法性能越好。</p>
 <h1 id="活体检测算法"><a href="#活体检测算法" class="headerlink" title="活体检测算法"></a>活体检测算法</h1><h2 id="传统算法"><a href="#传统算法" class="headerlink" title="传统算法"></a>传统算法</h2><h3 id="Image-Distortion-Analysis-2015"><a href="#Image-Distortion-Analysis-2015" class="headerlink" title="Image Distortion Analysis, 2015"></a>Image Distortion Analysis, 2015</h3><p>如下图，单帧输入的方法，设计了 镜面反射+图像质量失真+颜色 等统计量特征，合并后直接送SVM进行二分类。</p>
 <p><img src="1581509728394.png" alt="1581509728394"></p>
 <p>Cons: 对于高清彩色打印的纸张 or 高清录制视频，质量失真不严重时，难区分开。</p>
@@ -178,8 +177,7 @@ FPR=FP/(FP+TN)</script><h3 id="TPR-FPR"><a href="#TPR-FPR" class="headerlink" ti
 <p>至于后续手工设计的 SPMT feature 和 TFBD feature 比较复杂繁琐，分别是表征 micro-texture 和 stereo structure of face，有兴趣的同学可以去细看。</p>
 <p><img src="1581510466372.png" alt="1581510466372"></p>
 <h3 id="De-Spoofing-ECCV2018"><a href="#De-Spoofing-ECCV2018" class="headerlink" title="De-Spoofing, ECCV2018"></a>De-Spoofing, ECCV2018</h3><p>单帧方法，文章的idea很有趣，启发于图像去噪de-noise 和 图像去抖动 de-blur。无论是噪声图还是模糊图，都可看成是在原图上加噪声运算或者模糊运算（即下面的公式），而去噪和去抖动，就是估计噪声分布和模糊核，从而重构回原图。</p>
-<script type="math/tex; mode=display">
-x=\tilde{x} + N(\tilde{x})</script><p>文中把活体人脸图看成是原图   ，而非活体人脸图看成是加了噪声后失真的x，故 task 就变成估计 Spoof noise   ，然后用这个 Noise pattern feature 去分类决策。</p>
+<p>$$<br>x=\tilde{x} + N(\tilde{x})<br>$$<br>文中把活体人脸图看成是原图   ，而非活体人脸图看成是加了噪声后失真的x，故 task 就变成估计 Spoof noise   ，然后用这个 Noise pattern feature 去分类决策。</p>
 <p><img src="1581510979177.png" alt="1581510979177"></p>
 <p>那问题来了，数据集没有像素级别一一对应的 groundtruth，也没有Spoof Noise模型的先验知识（如果有知道Noise模型，可以用Live Face来生成Spoofing Face），那拿什么来当groundtruth，怎么设计网络去估计 Spoofing noise 呢？</p>
 <p>如一般Low-level image 任务一样，文中利用Encoder-decoder来得到 Spoof noise N，然后通过残差重构出   ，这就是下图的DS Net。为了保证网络对于不同输入，学出来的Noise是有效的，根据先验知识设计了三个Loss来constrain：</p>
