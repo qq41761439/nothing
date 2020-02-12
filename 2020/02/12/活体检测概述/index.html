@@ -127,8 +127,8 @@
 <p><img src="%E6%B4%BB%E4%BD%93%E6%A3%80%E6%B5%8B%E6%A6%82%E8%BF%B0/1581493465754.png" alt="1581493465754"></p>
 <h3 id="使用一次拍照的重聚焦图像"><a href="#使用一次拍照的重聚焦图像" class="headerlink" title="使用一次拍照的重聚焦图像"></a>使用一次拍照的重聚焦图像</h3><p>原理是可以从两张重聚焦图像的差异中，估计出深度信息；从特征提取来说，真实人脸与非活体人脸的3D人脸模型不同，可提取差异图像中的 亮度分布特征+聚焦区域锐利程度特征+频谱直方图特征。</p>
 <h1 id="活体检测衡量指标"><a href="#活体检测衡量指标" class="headerlink" title="活体检测衡量指标"></a>活体检测衡量指标</h1><p>衡量人脸识别算法性能的优劣有很多不同的标准，比如FAR，FRR，TAR等。</p>
-<h3 id="TPR"><a href="#TPR" class="headerlink" title="TPR"></a>TPR</h3><p>TPR （True Positive Rate）真正类率，又叫真阳率，代表预测是异常实际也是异常的样本数，占实际总异常数的比例——数值越大，性能越好：</p>
-<h3 id="FPR"><a href="#FPR" class="headerlink" title="FPR"></a>FPR</h3><p>FPR （False Positive Rate）假正类率，又叫假阳率，代表预测是异常但实际是正常的样本数，占实际正常总数的比例——数值越小，性能越好：</p>
+<h3 id="TPR"><a href="#TPR" class="headerlink" title="TPR"></a>TPR</h3><p>TPR （True Positive Rate）真正类率，又叫真阳率，代表预测是异常实际也是异常的样本数，占实际总异常数的比例——数值越大，性能越好：<br>$$<br>TPR=TP/(TP+FN)<br>$$</p>
+<h3 id="FPR"><a href="#FPR" class="headerlink" title="FPR"></a>FPR</h3><p>FPR （False Positive Rate）假正类率，又叫假阳率，代表预测是异常但实际是正常的样本数，占实际正常总数的比例——数值越小，性能越好：<br>$$<br>FPR=FP/(FP+TN)<br>$$</p>
 <h3 id="TPR-FPR"><a href="#TPR-FPR" class="headerlink" title="TPR@FPR"></a>TPR@FPR</h3><p>TPR@10e-4 FPR即为当FPR为10e-4时候的TPR的数值，之所以采用这种形式是因为在不同的FPR下度量的TPR是会不同的。这个数值越大，说明算法性能越好。</p>
 <h1 id="活体检测算法"><a href="#活体检测算法" class="headerlink" title="活体检测算法"></a>活体检测算法</h1><h2 id="传统算法"><a href="#传统算法" class="headerlink" title="传统算法"></a>传统算法</h2><p>\1.       Image Distortion Analysis, 2015</p>
 <p>如下图，单帧输入的方法，设计了 镜面反射+图像质量失真+颜色 等统计量特征，合并后直接送SVM进行二分类。</p>
