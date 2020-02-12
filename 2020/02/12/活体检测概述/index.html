@@ -63,7 +63,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">6.2k字</span>
+            <span class="post-count">6.1k字</span>
         </span>
     </span>
 
@@ -117,110 +117,106 @@
 <p>从特征工程角度来说，方法无非也是提取NIR图中的光照纹理特征或者 远程人脸心率特征 来进行。下图可见，上面两行是真实人脸图中人脸区域与背景区域的直方图分布，明显与下面两行的非活体图的分布不一致；而通过与文章[5]中一样的rPPG提取方法，在文章中说明其在NIR图像中出来的特征更加鲁棒。</p>
 <p><img src="1581494695238.png" alt="1581494695238"></p>
 <h2 id="结构光-ToF"><a href="#结构光-ToF" class="headerlink" title="结构光/ToF"></a>结构光/ToF</h2><p>由于结构光及ToF能在近距离里相对准确地进行3D人脸重构，即可得到人脸及背景的点云图及深度图，可作为精准活体检测（而不像单目RGB或双目RGB中仍需估计深度）。不过就是成本较高，看具体应用场景决定。</p>
-<p><img src="%E6%B4%BB%E4%BD%93%E6%A3%80%E6%B5%8B%E6%A6%82%E8%BF%B0/1581493049557.png" alt="1581493049557"></p>
+<p><img src="1581493049557.png" alt="1581493049557"></p>
 <p>很多朋友都知道，今年各个手机厂家的旗舰产品基本都搭载了3D结构光的技术，3D结构光可以说是当下最配称之为黑科技的技术之一了，但是大家都以为3D结构光只用作于人脸识别，其实并不是！</p>
 <p>通俗来讲，3D结构光是从摄像头弹出数百万条投射光线到识别物体上，形成三维立体图像，能够更精确的识别物体，用深度一些的话来解释就是：根据投射的潜望结构光线扫描采集物体信息，通过”点”对”面”的特殊算法构成三维图像进行对比与识别。</p>
-<p><img src="%E6%B4%BB%E4%BD%93%E6%A3%80%E6%B5%8B%E6%A6%82%E8%BF%B0/1581493128808.png" alt="1581493128808"></p>
+<p><img src="1581493128808.png" alt="1581493128808"></p>
 <p>3D结构光的用途不仅在于面部识别，还可以用于美颜自拍(有针对性的美颜，分析脸部结构进行计算，并非糊成一片的”美白、大眼、瘦脸”)、AR购物(只需要扫描脸部即可实现自动换衣、选衣)、3D打印(由手机进行扫描，再传输到3D打印机上)以及很可爱的萌拍等多项技术；</p>
 <h2 id="光场-Light-field"><a href="#光场-Light-field" class="headerlink" title="光场 Light field"></a>光场 Light field</h2><p>光场相机具有光学显微镜头阵列，且由于光场能描述空间中任意一点向任意方向的光线强度，出来的raw光场照片及不同重聚焦的照片，都能用于活体检测：</p>
 <h3 id="raw光场照片及对应的子孔径照片"><a href="#raw光场照片及对应的子孔径照片" class="headerlink" title="raw光场照片及对应的子孔径照片"></a>raw光场照片及对应的子孔径照片</h3><p>如下图所示，对于真实人脸的脸颊边缘的微镜图像，其像素应该是带边缘梯度分布；而对应纸张打印或屏幕攻击，其边缘像素是随机均匀分布：</p>
-<p><img src="%E6%B4%BB%E4%BD%93%E6%A3%80%E6%B5%8B%E6%A6%82%E8%BF%B0/1581493465754.png" alt="1581493465754"></p>
+<p><img src="1581493465754.png" alt="1581493465754"></p>
 <h3 id="使用一次拍照的重聚焦图像"><a href="#使用一次拍照的重聚焦图像" class="headerlink" title="使用一次拍照的重聚焦图像"></a>使用一次拍照的重聚焦图像</h3><p>原理是可以从两张重聚焦图像的差异中，估计出深度信息；从特征提取来说，真实人脸与非活体人脸的3D人脸模型不同，可提取差异图像中的 亮度分布特征+聚焦区域锐利程度特征+频谱直方图特征。</p>
 <h1 id="活体检测衡量指标"><a href="#活体检测衡量指标" class="headerlink" title="活体检测衡量指标"></a>活体检测衡量指标</h1><p>衡量人脸识别算法性能的优劣有很多不同的标准，比如FAR，FRR，TAR等。</p>
 <h3 id="TPR"><a href="#TPR" class="headerlink" title="TPR"></a>TPR</h3><p>TPR （True Positive Rate）真正类率，又叫真阳率，代表预测是异常实际也是异常的样本数，占实际总异常数的比例——数值越大，性能越好：<br>$$<br>TPR=TP/(TP+FN)<br>$$</p>
 <h3 id="FPR"><a href="#FPR" class="headerlink" title="FPR"></a>FPR</h3><p>FPR （False Positive Rate）假正类率，又叫假阳率，代表预测是异常但实际是正常的样本数，占实际正常总数的比例——数值越小，性能越好：<br>$$<br>FPR=FP/(FP+TN)<br>$$</p>
 <h3 id="TPR-FPR"><a href="#TPR-FPR" class="headerlink" title="TPR@FPR"></a>TPR@FPR</h3><p>TPR@10e-4 FPR即为当FPR为10e-4时候的TPR的数值，之所以采用这种形式是因为在不同的FPR下度量的TPR是会不同的。这个数值越大，说明算法性能越好。</p>
-<h1 id="活体检测算法"><a href="#活体检测算法" class="headerlink" title="活体检测算法"></a>活体检测算法</h1><h2 id="传统算法"><a href="#传统算法" class="headerlink" title="传统算法"></a>传统算法</h2><p>\1.       Image Distortion Analysis, 2015</p>
-<p>如下图，单帧输入的方法，设计了 镜面反射+图像质量失真+颜色 等统计量特征，合并后直接送SVM进行二分类。</p>
+<h1 id="活体检测算法"><a href="#活体检测算法" class="headerlink" title="活体检测算法"></a>活体检测算法</h1><h2 id="传统算法"><a href="#传统算法" class="headerlink" title="传统算法"></a>传统算法</h2><h3 id="Image-Distortion-Analysis-2015"><a href="#Image-Distortion-Analysis-2015" class="headerlink" title="Image Distortion Analysis, 2015"></a>Image Distortion Analysis, 2015</h3><p>如下图，单帧输入的方法，设计了 镜面反射+图像质量失真+颜色 等统计量特征，合并后直接送SVM进行二分类。</p>
+<p><img src="1581509728394.png" alt="1581509728394"></p>
 <p>Cons: 对于高清彩色打印的纸张 or 高清录制视频，质量失真不严重时，难区分开。</p>
-<p>\2.       Colour Texture, 2016</p>
-<p>Oulu CMVS组的产物，算是传统方法中的战斗机，特别简洁实用，Matlab代码（课题组官网有），很适合搞成C++部署到门禁系统。</p>
+<h3 id="Colour-Texture-2016"><a href="#Colour-Texture-2016" class="headerlink" title="Colour Texture, 2016"></a>Colour Texture, 2016</h3><p>Oulu CMVS组的产物，算是传统方法中的战斗机，特别简洁实用，Matlab代码（课题组官网有），很适合搞成C++部署到门禁系统。</p>
 <p>原理：活体与非活体，在RGB空间里比较难区分，但在其他颜色空间里的纹理有明显差异。</p>
 <p>算法：HSV空间人脸多级LBP特征 + YCbCr空间人脸LPQ特征 （后在17年的paper拓展成SURF特征）。</p>
+<p><img src="1581509830646.png" alt="1581509830646"></p>
 <p>Pros: 算法简洁高效易部署；也证明了活体与非活体在 HSV等其他空间也是 discriminative，故后续深度学习方法有将HSV等channel也作为输入来提升性能。</p>
-<p>\3.       Motion mag.-HOOF + LBP-TOP, 2014、DMD + LBP, 2015</p>
-<p>前面说的都是单帧方法，这两篇文章输入的是连续多帧人脸图，主要通过捕获活体与非活体微动作之间的差异来设计特征。</p>
+<h3 id="Motion-mag-HOOF-LBP-TOP-2014、DMD-LBP-2015"><a href="#Motion-mag-HOOF-LBP-TOP-2014、DMD-LBP-2015" class="headerlink" title="Motion mag.-HOOF + LBP-TOP, 2014、DMD + LBP, 2015"></a>Motion mag.-HOOF + LBP-TOP, 2014、DMD + LBP, 2015</h3><p>前面说的都是单帧方法，这两篇文章输入的是连续多帧人脸图，主要通过捕获活体与非活体微动作之间的差异来设计特征。</p>
 <p>一个是先通过运动放大来增强脸部微动作， 然后提取方向光流直方图HOOF + 动态纹理LBP-TOP 特征；一个是通过动态模式分解DMD，得到最大运动能量的子空间图，再分析纹理。</p>
 <p>PS：这个 motion magnification 的预处理很差劲，加入了很多其他频段噪声（18年新出了一篇用 Deep learning 来搞 Motion mag. 看起来效果挺好，可以尝试用那个来做运动增强，再来光流orDMD）</p>
-<p><strong>Motion mag.-HOOF + LBP-TOP, 2014</strong></p>
-<p><strong>DMD + LBP, 2015</strong></p>
+<p><img src="1581509878434.png" alt="1581509878434"></p>
+<p>Motion mag.-HOOF + LBP-TOP, 2014</p>
+<p><img src="1581509940628.png" alt="1581509940628"></p>
+<p>MD + LBP, 2015</p>
 <p>Cons: 基于Motion的方法，对于仿人脸wrapped纸张抖动和视频攻击，效果不好；因为它假定了活体与非活体之间的非刚性运动有明显的区别，但其实这种微动作挺难描述与学习。</p>
-<p>\4.       Pulse + texture, 2016</p>
-<p>第一个将 remote pluse 应用到活体检测中，多帧输入。</p>
-<p>（交代下背景：在CVPR2014，当时 Xiaobai Li 已经提出了从人脸视频里测量心率的方法）</p>
+<h3 id="Pulse-texture-2016"><a href="#Pulse-texture-2016" class="headerlink" title="Pulse + texture, 2016"></a>Pulse + texture, 2016</h3><p>第一个将 remote pluse 应用到活体检测中，多帧输入。（交代下背景：在CVPR2014，当时 Xiaobai Li 已经提出了从人脸视频里测量心率的方法）</p>
 <p>算法流程： </p>
-<p>\1. 通过 pluse 在频域上分布不同先区分 活体 or 照片攻击 （因为照片中的人脸提取的心率分布不同）</p>
-<p>\2. 若判别1结果是活体，再 cascade 一个 纹理LBP 分类器，来区分 活体 or 屏幕攻击（因为屏幕视频中人脸心率分布与活体相近）</p>
+<ul>
+<li>通过 pluse 在频域上分布不同先区分 活体 or 照片攻击 （因为照片中的人脸提取的心率分布不同）</li>
+<li>若判别1结果是活体，再 cascade 一个 纹理LBP 分类器，来区分 活体 or 屏幕攻击（因为屏幕视频中人脸心率分布与活体相近）</li>
+</ul>
+<p><img src="1581510107335.png" alt="1581510107335"></p>
 <p>Pros: 从学术界来说，引入了心理信号这个新模态，很是进步；从工业界来看，如果不能一步到位，针对每种类型攻击，也可进行 Cascade 对应的特征及分类器的部署方式。</p>
 <p>Cons: 由于 remote heart rate 的算法本来鲁棒性也一般，故出来的 pulse-feature 的判别性能力很不能保证；再者屏幕video里的人脸视频出来的 pulse-feature 是否也有微小区别，还待验证。</p>
-<p><strong>（二）</strong>     深度学习算法</p>
-<p>其实用 Deep learning 来做活体检测，从15年陆陆续续就有人在研究，但由于公开数据集样本太少，一直性能也超越不了传统方法。</p>
-<p>\1.       CNN-LSTM, 2015</p>
-<p>多帧方法，想通过 CNN-LSTM 来模拟传统方法 LBP-TOP，性能堪忧。</p>
-<p>\2.       PatchNet pretrain，CNN finetune, 2017</p>
-<p>单帧方法，通过人脸分块，pre-train 网络；然后再在 global 整个人脸图 fine-tune，作用不大</p>
-<p>\3.       Patch and Depth-Based CNNs, 2017</p>
-<p>第一个考虑把人脸深度图作为活体与非活体的差异特征，因为像屏幕中的人脸一般是平的，而纸张中的人脸就算扭曲，和真人人脸的立体分布也有差异。 </p>
+<h2 id="深度学习算法"><a href="#深度学习算法" class="headerlink" title="深度学习算法"></a>深度学习算法</h2><p>其实用 Deep learning 来做活体检测，从15年陆陆续续就有人在研究，但由于公开数据集样本太少，一直性能也超越不了传统方法。</p>
+<h3 id="CNN-LSTM-2015"><a href="#CNN-LSTM-2015" class="headerlink" title="CNN-LSTM, 2015"></a>CNN-LSTM, 2015</h3><p>多帧方法，想通过 CNN-LSTM 来模拟传统方法 LBP-TOP，性能堪忧。</p>
+<h3 id="PatchNet-pretrain，CNN-finetune-2017"><a href="#PatchNet-pretrain，CNN-finetune-2017" class="headerlink" title="PatchNet pretrain，CNN finetune, 2017"></a>PatchNet pretrain，CNN finetune, 2017</h3><p>单帧方法，通过人脸分块，pre-train 网络；然后再在 global 整个人脸图 fine-tune，作用不大</p>
+<h3 id="Patch-and-Depth-Based-CNNs-2017"><a href="#Patch-and-Depth-Based-CNNs-2017" class="headerlink" title="Patch and Depth-Based CNNs, 2017"></a>Patch and Depth-Based CNNs, 2017</h3><p>第一个考虑把人脸深度图作为活体与非活体的差异特征，因为像屏幕中的人脸一般是平的，而纸张中的人脸就算扭曲，和真人人脸的立体分布也有差异。 </p>
 <p>就算用了很多 tricks 去 fusion，性能还是超越不了传统方法。</p>
-<p>\4.       Deep Pulse and Depth, 2018</p>
-<p>发表在 CVPR2018 的文章，终于超越了传统方法性能。</p>
-<p>设计了深度框架准端到端地去预测 Pulse统计量及 Depth map （这里说的“准”，就是最后没接分类器，直接通过样本 feature 的相似距离，阈值决策）</p>
-<p>在文章中明确指明：</p>
-<p>l 过去方法把活体检测看成二分类问题，直接让DNN去学习，这样学出来的cues不够general 和 discriminative</p>
-<p>l 将二分类问题换成带目标性地特征监督问题，即 回归出 pulse 统计量 + 回归出 Depth map，保证网络学习的就是这两种特征（哈哈，不排除假设学到了 color texture 在里面，黑箱网络这么聪明）</p>
+<p><img src="1581510355170.png" alt="1581510355170"></p>
+<h3 id="Deep-Pulse-and-Depth-2018"><a href="#Deep-Pulse-and-Depth-2018" class="headerlink" title="Deep Pulse and Depth, 2018"></a>Deep Pulse and Depth, 2018</h3><p>发表在 CVPR2018 的文章，终于超越了传统方法性能。</p>
+<p>设计了深度框架<strong>准端到端</strong>地去预测 Pulse统计量及 Depth map （这里说的“准”，就是最后没接分类器，直接通过样本 feature 的相似距离，阈值决策）。在文章中明确指明：</p>
+<ul>
+<li>过去方法把活体检测看成二分类问题，直接让DNN去学习，这样学出来的cues不够general 和 discriminative</li>
+<li>将二分类问题换成带目标性地特征监督问题，即 回归出 pulse 统计量 + 回归出 Depth map，保证网络学习的就是这两种特征（哈哈，不排除假设学到了 color texture 在里面，黑箱网络这么聪明）</li>
+</ul>
+<p><img src="1581510424828.png" alt="1581510424828"></p>
 <p>回归 Depth map，就是通过 Landmark 然后 3DMMfitting 得到 人脸3D shape，然后再阈值化去背景，得到 depth map 的 groundtruth，最后和网络预测的 estimated depth map 有 L2 loss。</p>
 <p>而文章亮点在于设计了 Non-rigid Registration Layer 来对齐各帧人脸的非刚性运动（如姿态，表情等），然后通过RNN更好地学到 temporal pulse 信息。</p>
+<p><img src="1581510437322.png" alt="1581510437322"></p>
 <p>为什么需要这个对齐网络呢？我们来想想，在做运动识别任务时，只需简单把 sampling或者连续帧 合并起来喂进网络就行了，是假定相机是不动的，对象在运动；而文中需要对连续人脸帧进行pulse特征提取，主要对象是人脸上对应ROI在 temporal 上的 Intensity 变化，所以就需要把人脸当成是相机固定不动。</p>
-<p>\5.       Micro-texture + SSD or binocular depth , 2018</p>
-<p>最大的贡献是把活体检测直接放到人脸检测（SSD，MTCNN等）模块里作为一个类，即人脸检测出来的 bbox 里有 “背景”，“真人人脸”，“假人脸”三类的置信度，这样可以在早期就过滤掉一部分非活体。</p>
+<h3 id="Micro-texture-SSD-or-binocular-depth-2018"><a href="#Micro-texture-SSD-or-binocular-depth-2018" class="headerlink" title="Micro-texture + SSD or binocular depth , 2018"></a>Micro-texture + SSD or binocular depth , 2018</h3><p>最大的贡献是把活体检测直接放到人脸检测（SSD，MTCNN等）模块里作为一个类，即人脸检测出来的 bbox 里有 “背景”，“真人人脸”，“假人脸”三类的置信度，这样可以在早期就过滤掉一部分非活体。</p>
 <p>所以整个系统速度非常地快，很适合工业界部署。</p>
 <p>至于后续手工设计的 SPMT feature 和 TFBD feature 比较复杂繁琐，分别是表征 micro-texture 和 stereo structure of face，有兴趣的同学可以去细看。</p>
-<p>\6.        De-Spoofing, ECCV2018</p>
-<p>单帧方法，文章的idea很有趣，启发于图像去噪de-noise 和 图像去抖动 de-blur。无论是噪声图还是模糊图，都可看成是在原图上加噪声运算或者模糊运算（即下面的公式），而去噪和去抖动，就是估计噪声分布和模糊核，从而重构回原图。</p>
-<p>文中把活体人脸图看成是原图   ，而非活体人脸图看成是加了噪声后失真的x，故 task 就变成估计 Spoof noise   ，然后用这个 Noise pattern feature 去分类决策。</p>
+<p><img src="1581510466372.png" alt="1581510466372"></p>
+<h3 id="De-Spoofing-ECCV2018"><a href="#De-Spoofing-ECCV2018" class="headerlink" title="De-Spoofing, ECCV2018"></a>De-Spoofing, ECCV2018</h3><p>单帧方法，文章的idea很有趣，启发于图像去噪de-noise 和 图像去抖动 de-blur。无论是噪声图还是模糊图，都可看成是在原图上加噪声运算或者模糊运算（即下面的公式），而去噪和去抖动，就是估计噪声分布和模糊核，从而重构回原图。</p>
+<p>$$<br>x=\tilde{x} + N(\tilde{x})<br>$$<br>文中把活体人脸图看成是原图   ，而非活体人脸图看成是加了噪声后失真的x，故 task 就变成估计 Spoof noise   ，然后用这个 Noise pattern feature 去分类决策。</p>
+<p><img src="1581510979177.png" alt="1581510979177"></p>
 <p>那问题来了，数据集没有像素级别一一对应的 groundtruth，也没有Spoof Noise模型的先验知识（如果有知道Noise模型，可以用Live Face来生成Spoofing Face），那拿什么来当groundtruth，怎么设计网络去估计 Spoofing noise 呢？</p>
 <p>如一般Low-level image 任务一样，文中利用Encoder-decoder来得到 Spoof noise N，然后通过残差重构出   ，这就是下图的DS Net。为了保证网络对于不同输入，学出来的Noise是有效的，根据先验知识设计了三个Loss来constrain：</p>
 <p>Magnitude loss(当输入是Live face时，N尽量逼近0)；</p>
 <p>Repetitive loss(Spooing face的Noise图在高频段有较大的峰值)；</p>
 <p>0\1Map Loss(让Real Face 的 deep feature map分布尽量逼近全0，而Spoofing face的 deep feature map 尽量逼近全1)</p>
+<p><img src="1581510995219.png" alt="1581510995219"></p>
 <p>那网络右边的 VQ-Net 和 DQ-Net 又有什么作用呢？因为没有 Live face 的 Groundtruth，要保证重构出来的分布接近 Live face，作者用了对抗生成网络GAN (即 VQ-Net )去约束重构生成的   与Live face分布尽量一致；而用了pre-trained Depth model 来保证   的深度图与Live face的深度图尽量一致。</p>
 <p>Pros: 通过可视化最终让大众知道了 Spoofing Noise 是长什么样子的~</p>
 <p>Cons: 在实际场景中难部署（该模型假定Spoofing Noise是 strongly 存在的，当实际场景中活体的人脸图质量并不是很高，而非活体攻击的质量相对高时，Spoofing noise走不通）</p>
-<p><strong>（三）</strong>     一些开源模型</p>
-<p>\1.       Opencv 简易版</p>
-<p><a href="https://www.pyimagesearch.com/2019/03/11/liveness-detection-with-opencv/" target="_blank" rel="noopener">https://www.pyimagesearch.com/2019/03/11/liveness-detection-with-opencv/</a></p>
-<p><strong>三、</strong>   活体检测数据库</p>
-<p><strong>（一）</strong>     公开数据</p>
-<p>· NUAA: <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fparnec.nuaa.edu.cn%2Fxtan%2Fdata%2Fnuaaimposterdb.html" target="_blank" rel="noopener">http://parnec.nuaa.edu.cn/xtan/data/nuaaimposterdb.html</a> </p>
-<p>· <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fparnec.nuaa.edu.cn%2Fxtan%2FNUAAImposterDB_download.html" target="_blank" rel="noopener">http://parnec.nuaa.edu.cn/xtan/NUAAImposterDB_download.html</a> </p>
-<p>· Replay-Attack dataset: <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.idiap.ch%2Fdataset%2Freplayattack" target="_blank" rel="noopener">https://www.idiap.ch/dataset/replayattack</a> </p>
-<p>· CASIA Face Anti-Spoofing Database: <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fwww.cbsr.ia.ac.cn%2Fenglish%2FFaceAntiSpoofDatabases.asp" target="_blank" rel="noopener">http://www.cbsr.ia.ac.cn/english/FaceAntiSpoofDatabases.asp</a> </p>
-<p>· MSU Mobile Face Spoofing Database (MSU MFSD): <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fbiometrics.cse.msu.edu%2FPublications%2FDatabases%2FMSUMobileFaceSpoofing%2Findex.htm%23Download_instructions" target="_blank" rel="noopener">http://biometrics.cse.msu.edu/Publications/Databases/MSUMobileFaceSpoofing/index.htm#Download_instructions</a></p>
-<p><strong>（二）</strong>     合成数据</p>
-<p>\1.       “反光+透视畸变”数据</p>
-<p>实际场景中的攻击样本不是分辨率低就是有反光+透视畸变，可以自己合成数据，处理流程如下：</p>
+<h2 id="一些开源模型"><a href="#一些开源模型" class="headerlink" title="一些开源模型"></a>一些开源模型</h2><h3 id="Opencv-简易版"><a href="#Opencv-简易版" class="headerlink" title="Opencv 简易版"></a>Opencv 简易版</h3><p><a href="https://www.pyimagesearch.com/2019/03/11/liveness-detection-with-opencv/" target="_blank" rel="noopener">https://www.pyimagesearch.com/2019/03/11/liveness-detection-with-opencv/</a></p>
+<h1 id="活体检测数据库"><a href="#活体检测数据库" class="headerlink" title="活体检测数据库"></a>活体检测数据库</h1><h2 id="公开数据"><a href="#公开数据" class="headerlink" title="公开数据"></a>公开数据</h2><p><img src="1581511030944.png" alt="1581511030944"></p>
+<ul>
+<li>NUAA: <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fparnec.nuaa.edu.cn%2Fxtan%2Fdata%2Fnuaaimposterdb.html" target="_blank" rel="noopener">http://parnec.nuaa.edu.cn/xtan/data/nuaaimposterdb.html</a> </li>
+<li><a href="https://links.jianshu.com/go?to=http%3A%2F%2Fparnec.nuaa.edu.cn%2Fxtan%2FNUAAImposterDB_download.html" target="_blank" rel="noopener">http://parnec.nuaa.edu.cn/xtan/NUAAImposterDB_download.html</a> </li>
+<li>Replay-Attack dataset: <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.idiap.ch%2Fdataset%2Freplayattack" target="_blank" rel="noopener">https://www.idiap.ch/dataset/replayattack</a> </li>
+<li>CASIA Face Anti-Spoofing Database: <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fwww.cbsr.ia.ac.cn%2Fenglish%2FFaceAntiSpoofDatabases.asp" target="_blank" rel="noopener">http://www.cbsr.ia.ac.cn/english/FaceAntiSpoofDatabases.asp</a> </li>
+<li>MSU Mobile Face Spoofing Database (MSU MFSD): <a href="https://links.jianshu.com/go?to=http%3A%2F%2Fbiometrics.cse.msu.edu%2FPublications%2FDatabases%2FMSUMobileFaceSpoofing%2Findex.htm%23Download_instructions" target="_blank" rel="noopener">http://biometrics.cse.msu.edu/Publications/Databases/MSUMobileFaceSpoofing/index.htm#Download_instructions</a></li>
+</ul>
+<h2 id="合成数据"><a href="#合成数据" class="headerlink" title="合成数据"></a>合成数据</h2><h3 id="“反光-透视畸变”数据"><a href="#“反光-透视畸变”数据" class="headerlink" title="“反光+透视畸变”数据"></a>“反光+透视畸变”数据</h3><p>实际场景中的攻击样本不是分辨率低就是有反光+透视畸变，可以自己合成数据，处理流程如下：</p>
 <p>模糊：用大小随机的高斯核处理真人样本；</p>
 <p>透视畸变：将真人样本裁减成设备屏幕大小，替换原本屏幕区域得到X1；将X1与某随机图像B加权叠加得到X2，B的权重为为[0, 0.2]之间的随机数；对X2做透视变换，再与随机背景图做mask叠加，即用背景替换X2透视变换产生的“0”值区域，得到目标图像。如下图所示，至此，第二部分攻击样本合成结束。</p>
-<p><strong>四、</strong>   活体检测比赛</p>
-<p><strong>（一）</strong>     即将进行的比赛</p>
-<p><strong>（二）</strong>     往届赛事</p>
-<p>\1.       ChaLearn Face Anti-spoofing Attack Detection Challenge @CVPR2019</p>
-<p>CVPR2019的workshop，此次比赛项目是人脸防欺诈攻击检测。</p>
+<p><img src="1581511402394.png" alt="1581511402394"></p>
+<h1 id="活体检测比赛"><a href="#活体检测比赛" class="headerlink" title="活体检测比赛"></a>活体检测比赛</h1><h2 id="即将进行的比赛"><a href="#即将进行的比赛" class="headerlink" title="即将进行的比赛"></a>即将进行的比赛</h2><h2 id="往届赛事"><a href="#往届赛事" class="headerlink" title="往届赛事"></a>往届赛事</h2><h3 id="ChaLearn-Face-Anti-spoofing-Attack-Detection-Challenge-CVPR2019"><a href="#ChaLearn-Face-Anti-spoofing-Attack-Detection-Challenge-CVPR2019" class="headerlink" title="ChaLearn Face Anti-spoofing Attack Detection Challenge @CVPR2019"></a>ChaLearn Face Anti-spoofing Attack Detection Challenge @CVPR2019</h3><p>CVPR2019的workshop，此次比赛项目是人脸防欺诈攻击检测。</p>
 <p>人脸防欺诈攻击检测，主要是帮助人脸识别系统判断被采集人脸是用户本人脸部，还是打印的照片，录制的视频，3D面具等伪造物，所以也叫活体检测。这项技术对于手机解锁，门禁控制，刷脸支付的安全性是至关重要的。</p>
-<p>从技术发展上，人脸防欺诈检测可以简单地分为两大类：传统的人工特征模式识别方法和近几年兴起的CNN深度学习方法。通过在几个通用数据集上的测试，目前，深度学习方法在识别准确性上对传统方法已成碾压态势。本次比赛中，也很难见到传统方法的身影。</p>
-<p>（1）      衡量指标</p>
-<p>这次比赛主要依据的是TPR@10e-4 FPR作为衡量标准。</p>
-<p>（2）      比赛数据集</p>
-<p>CASIA-SURF，这是中科院自动化所推出的数据集，包含了1000个个体样本的21000段视频。采集设备是英特尔的RealSense SR300立体相机，同时采集了RGB，红外图，和深度图。数据集按3：1：6的比例分成了训练、开发、测试三个子集。大赛为了检验参赛模型有足够泛化能力，训练集只给了一部分。</p>
-<p>（3）      比赛优秀模型介绍</p>
-<p>a)      VisionLabs</p>
-<p>VisionLabs是俄罗斯的一家专注于人脸识别、物体识别、增强现实和虚拟现实的公司，是全球视觉识别市场的领导者。</p>
+<p>从技术发展上，人脸防欺诈检测可以简单地分为两大类：传统的人工特征模式识别方法和近几年兴起的CNN深度学习方法。通过在几个通用数据集上的测试，<strong>目前，深度学习方法在识别准确性上对传统方法已成碾压态势。本次比赛中，也很难见到传统方法的身影</strong>。</p>
+<h4 id="衡量指标"><a href="#衡量指标" class="headerlink" title="衡量指标"></a>衡量指标</h4><p>这次比赛主要依据的是TPR@10e-4 FPR作为衡量标准。</p>
+<h4 id="比赛数据集"><a href="#比赛数据集" class="headerlink" title="比赛数据集"></a>比赛数据集</h4><p>CASIA-SURF，这是中科院自动化所推出的数据集，包含了1000个个体样本的21000段视频。采集设备是英特尔的RealSense SR300立体相机，同时采集了RGB，红外图，和深度图。数据集按3：1：6的比例分成了训练、开发、测试三个子集。大赛为了检验参赛模型有足够泛化能力，训练集只给了一部分。</p>
+<p><img src="1581511470776.png" alt="1581511470776"></p>
+<h4 id="比赛优秀模型介绍"><a href="#比赛优秀模型介绍" class="headerlink" title="比赛优秀模型介绍"></a>比赛优秀模型介绍</h4><p><img src="1581511486182.png" alt="1581511486182"></p>
+<h5 id="VisionLabs"><a href="#VisionLabs" class="headerlink" title="VisionLabs"></a>VisionLabs</h5><p>VisionLabs是俄罗斯的一家专注于人脸识别、物体识别、增强现实和虚拟现实的公司，是全球视觉识别市场的领导者。</p>
 <p>VisionLabs处理了俄罗斯和独联体几百万摄像头中的数据流。占据俄罗斯和独联体人脸识别技术引进的80%份额。</p>
 <p>美国情报局举办的全球人脸识别挑战赛（IARPA）上，包揽了识别速度和识别准确率两项比赛的冠军。美国情报局承认其人脸识别技术是世界第一。</p>
 <p>VisionLabs 与 Facebook 和 Google 是合作伙伴关系，他们共同开发了一个开源计算机视觉平台（Facebook和谷歌为该项目提供了资金支持），这个平台整合了OpenCV和Torch两个最受开发人员欢迎的神经网络和人工智能库。他们与NVidia合作打造了人脸识别汽车钥匙。</p>
 <p>【论文】Recognizing Multi-modal Face Spoofing with Face Recognition Networks</p>
 <p>【代码】<a href="https://github.com/AlexanderParkin/ChaLearn_liveness_challenge" target="_blank" rel="noopener">https://github.com/AlexanderParkin/ChaLearn_liveness_challenge</a></p>
 <p>【模型】模型基于经典的ResNet-34和ResNet-50做backbone，加入了SE模块。</p>
+<p><img src="1581511524938.png" alt="1581511524938"></p>
+<p><img src="1581511529328.png" alt="1581511529328"></p>
 <p>【夺冠技巧】</p>
 <p>正如visionlab自己总结的那样，他们的算法之所以solid，是在数据处理，模型架构，参数初始化三个方面的优势累积的结果。</p>
 <p>一、是对训练集的巧妙拆分。</p>
@@ -229,50 +225,45 @@
 <p>即Multi-level feature aggregation，使用随机权重初始化MLFA，再用最好的学习策略进行训练，会发现包含MLFA blocks的错误率比不包含的降低了1.5倍。原因是，MLFA blocks可以充分利用来自不同模态粗细层级的特征进行融合。</p>
 <p>三、使用多个不同任务的预训练模型fine-tuning。</p>
 <p>因为训练数据有限，使用预训练模型进行模型参数初始化时很常见的技巧。visionlabs为了让防欺诈模型具有更广泛的人脸特征学习能力，使用了人脸识别和性别检测的预训练模型作为初始化参数，然后在四个数据集上进行fine-tuning。结果证明，对于目标任务的不同预训练模型进行特征迁移是有作用的，使用多种人脸相关任务的综合结果能够提高系统的稳定性和性能。</p>
+<p><img src="1581511729485.png" alt="1581511729485"></p>
 <p>一系列技巧，让冠军的方案TPR@FPR=10-4已经无限接近100%；但是，这个模型并不是完美的，因为网络复杂，子模型众多，还有SE模块这种子结构增加了系统复杂性，使得它准确率出色，速度却比较尴尬，不能达到实时。这也是该团队下一步的工作重点。</p>
-<p>b)      上海阅面科技有限公司</p>
-<p>阅面科技是上海交大AI博士赵京雷的初创公司，成立于2015年的上海。</p>
+<h5 id="上海阅面科技有限公司"><a href="#上海阅面科技有限公司" class="headerlink" title="上海阅面科技有限公司"></a>上海阅面科技有限公司</h5><p>阅面科技是上海交大AI博士赵京雷的初创公司，成立于2015年的上海。</p>
 <p>定位明确，致力于在低功耗AI芯片端进行视觉AI应用的开拓，拥有一系列行业领先的核心技术。</p>
 <p>核心研发团队由来自阿里、百度、以及卡内基梅隆大学的顶尖人工智能研发人员组成。</p>
 <p>【论文】FaceBagNet: Bag-of-local-features Model for Multi-modal Face Anti-spoofing</p>
 <p>【代码】<a href="https://github.com/SeuTao/CVPR19-Face-Anti-spoofing" target="_blank" rel="noopener">https://github.com/SeuTao/CVPR19-Face-Anti-spoofing</a></p>
 <p>【模型简评】</p>
+<p><img src="1581511752788.png" alt="1581511752788"></p>
 <p>他们提出了一个带有模态特征擦除功能（MFE）的多路CNN架构，因为其中借鉴了BagNet的思想，故名为FaceBagNet。从短短5页的论文中，可以看出该团队主要使用了2个方法来提升比赛成绩：</p>
 <p>一、patch-based 特征学习</p>
 <p>因为欺诈相关的区别性信息遍布于整个脸部区域，所以使用CNN去提取patch级别的图片信息。常见的基于patch的方案，会把整个脸部分割成数个互相不交叠的固定区域，然后每个区域训练一个独立的子网络。</p>
 <p>本文的使用方法，对于每一个模态，训练一个单一的CNN随机从脸部获取patch。然后，使用他们自定制的ResNext网络提取特征。网络中包括五组卷积模块，一个GAP，一个softmax层。</p>
+<p><img src="1581511763080.png" alt="1581511763080"></p>
 <p>结果证明，基于patch的特征对于不同的欺诈攻击具有很高辨别能力。</p>
 <p>二、使用MFE模块进行multi-stream融合 RGB，IR，depth三种模态各有一个独立的子网络，三个子网络提取的特征肯定是不同的。在第三个卷积模块后，将特征图进行拼接。这是不同模态结果进行融合的方案。</p>
 <p>为什么要使用MFE模块呢？因为这里面有一个问题，直接简单的拼接不同模态的channel，无法充分利用不同模态之间的关联特性。为了防止过拟合和更好的进行特征学习，于是引入了MFE，即Modal Feature Erasing。训练的时候，随机选择一个模态的特征输入进行擦除（其实就是置零）。结果证明，这招有效防止了过拟合。dropout的既视感。</p>
-<p>c)      英特尔公司+华科大</p>
-<p>英特尔，没什么好说的，老牌美企，半导体行业的常青树，对深度学习领域不断投注资本（并购狂魔）。这次的季军来自位于上海的亚太研发中心，鉴于英特尔长期致力于和国内高校进行合作研究，论文也属名了华科大。</p>
+<h5 id="英特尔公司-华科大"><a href="#英特尔公司-华科大" class="headerlink" title="英特尔公司+华科大"></a>英特尔公司+华科大</h5><p>英特尔，没什么好说的，老牌美企，半导体行业的常青树，对深度学习领域不断投注资本（并购狂魔）。这次的季军来自位于上海的亚太研发中心，鉴于英特尔长期致力于和国内高校进行合作研究，论文也属名了华科大。</p>
 <p>【论文】FeatherNets: Convolutional Neural Networks as Ligh as Feather for Face Anti-spoofing</p>
 <p>【代码】<a href="https://github.com/SoftwareGift/FeatherNets_Face-Anti-spoofing-Attack-Detection-Challenge-CVPR2019" target="_blank" rel="noopener">https://github.com/SoftwareGift/FeatherNets_Face-Anti-spoofing-Attack-Detection-Challenge-CVPR2019</a></p>
 <p>【模型简评】</p>
+<p><img src="1581511791190.png" alt="1581511791190"></p>
 <p>模型的名字叫FeatherNet，寓意轻如鸿毛，是轻量级的神经网络模型。主要有两个特色方法：</p>
 <p>一、Streaming Model 流模块 主要是替代全局平均池化GAP（Global Average Pooling）。</p>
 <p>GAP被众多state of the art 目标检测网络采用，比如ReasNets，DenseNet，MobileNetV2，ShuffleNetV2，非常主流，适合降维和防止过拟合。但是在人脸相关的任务中，GAP对准确性却容易造成负面影响，主要原因在于其中的“equal importance”不适合人脸任务。为什么呢？简而言之，人脸图像不同于一般的目标检测图像，中心区域应该比边缘区域享有更高的权重，GAP是无法做区域权重区分的。能做到这一点的，一个可能选择是全连接层，但是会大量增加模型参数和过拟合的风险，不可取。</p>
 <p>作者选用了（DWConv）Depthwise convolution layer来解决这个问题，读者会觉得有点儿眼熟，因为在2018年有一篇论文“Mobilefacenets: Efficient cnns for accurate real-time face verification on mobile devices. ”，里面就论证了Global Depthwise Convolution (GDConv) layer对于人脸任务的有效性。</p>
+<p><img src="1581512200440.png" alt="1581512200440"></p>
 <p>根据测试结果，Streaming module比GAP精确度更高，又不会像FC层显著增加参数和过拟合风险。</p>
 <p>这就是为什么要多读相关领域的论文，因为拿来主义经常很奏效！</p>
 <p>二、multi-result fusion 多模态数据的结果最终一定是要融合的，具体到融合的策略就八仙过海各显神通了。FeatherNets选择的是传统的cascade级联的方法，设计了一种新的融合分类器体系结构，将从多模态数据（depth 和 IR 数据）中学习到的多模型进行组合和级联；具体架构如下：1.基于depth images先判断好区分的样本，输出real和fake的结果；2.将上一阶段不好确定的样本再通过IR images再判断一轮，输出最终结果。</p>
-<p><strong>五、</strong>   参考资料</p>
-<p>\1.       活体检测Face Anti-spoofing综述</p>
-<p><a href="https://zhuanlan.zhihu.com/p/43480539" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/43480539</a></p>
-<p>\2.       揭开3D结构光的神秘面纱</p>
-<p><a href="https://zhuanlan.zhihu.com/p/53801731" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/53801731</a></p>
-<p>\3.       人脸识别中的活体检测</p>
-<p><a href="https://zhuanlan.zhihu.com/p/25401788" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25401788</a></p>
-<p>\4.       CVPR2019 人脸活体检测专题</p>
-<p><a href="https://www.tensorinfinity.com/paper_182.html" target="_blank" rel="noopener">https://www.tensorinfinity.com/paper_182.html</a></p>
-<p>\5.       CVPR2019| 人脸防伪检测挑战赛-俄初创公司夺冠,中美企业位列二三(附论文代码及参赛模型解析)</p>
-<p><a href="https://zhuanlan.zhihu.com/p/69542283" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/69542283</a></p>
-<p>\6.       Model Matters, So Does Data</p>
-<p><a href="https://zhuanlan.zhihu.com/p/70606223" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/70606223</a></p>
-<p>\7.       一文道尽“人脸数据集”</p>
-<p><a href="https://www.infoq.cn/article/l3mwWQF69sc2ea0McV3Q" target="_blank" rel="noopener">https://www.infoq.cn/article/l3mwWQF69sc2ea0McV3Q</a></p>
-<p>\8.       活体检测工程化落地</p>
-<p><a href="https://zhuanlan.zhihu.com/p/76245997" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/76245997</a></p>
+<p><img src="1581512210088.png" alt="1581512210088"></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><h3 id="活体检测Face-Anti-spoofing综述"><a href="#活体检测Face-Anti-spoofing综述" class="headerlink" title="活体检测Face Anti-spoofing综述"></a>活体检测Face Anti-spoofing综述</h3><p><a href="https://zhuanlan.zhihu.com/p/43480539" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/43480539</a></p>
+<h3 id="揭开3D结构光的神秘面纱"><a href="#揭开3D结构光的神秘面纱" class="headerlink" title="揭开3D结构光的神秘面纱"></a>揭开3D结构光的神秘面纱</h3><p><a href="https://zhuanlan.zhihu.com/p/53801731" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/53801731</a></p>
+<h3 id="人脸识别中的活体检测"><a href="#人脸识别中的活体检测" class="headerlink" title="人脸识别中的活体检测"></a>人脸识别中的活体检测</h3><p><a href="https://zhuanlan.zhihu.com/p/25401788" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25401788</a></p>
+<h3 id="CVPR2019-人脸活体检测专题"><a href="#CVPR2019-人脸活体检测专题" class="headerlink" title="CVPR2019 人脸活体检测专题"></a>CVPR2019 人脸活体检测专题</h3><p><a href="https://www.tensorinfinity.com/paper_182.html" target="_blank" rel="noopener">https://www.tensorinfinity.com/paper_182.html</a></p>
+<h3 id="CVPR2019-人脸防伪检测挑战赛-俄初创公司夺冠-中美企业位列二三-附论文代码及参赛模型解析"><a href="#CVPR2019-人脸防伪检测挑战赛-俄初创公司夺冠-中美企业位列二三-附论文代码及参赛模型解析" class="headerlink" title="CVPR2019| 人脸防伪检测挑战赛-俄初创公司夺冠,中美企业位列二三(附论文代码及参赛模型解析)"></a>CVPR2019| 人脸防伪检测挑战赛-俄初创公司夺冠,中美企业位列二三(附论文代码及参赛模型解析)</h3><p><a href="https://zhuanlan.zhihu.com/p/69542283" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/69542283</a></p>
+<h3 id="Model-Matters-So-Does-Data"><a href="#Model-Matters-So-Does-Data" class="headerlink" title="Model Matters, So Does Data"></a>Model Matters, So Does Data</h3><p><a href="https://zhuanlan.zhihu.com/p/70606223" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/70606223</a></p>
+<h3 id="一文道尽“人脸数据集”"><a href="#一文道尽“人脸数据集”" class="headerlink" title="一文道尽“人脸数据集”"></a>一文道尽“人脸数据集”</h3><p><a href="https://www.infoq.cn/article/l3mwWQF69sc2ea0McV3Q" target="_blank" rel="noopener">https://www.infoq.cn/article/l3mwWQF69sc2ea0McV3Q</a></p>
+<h3 id="活体检测工程化落地"><a href="#活体检测工程化落地" class="headerlink" title="活体检测工程化落地"></a>活体检测工程化落地</h3><p><a href="https://zhuanlan.zhihu.com/p/76245997" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/76245997</a></p>
 
       
       <!-- reward -->
