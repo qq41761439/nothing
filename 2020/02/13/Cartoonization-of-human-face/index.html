@@ -6,7 +6,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    Archives |  For The Dream
+    Cartoonization of human face |  For The Dream
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -31,95 +31,236 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article class="articles">
+  <article id="post-Cartoonization-of-human-face" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
     
-    
-    <h1 class="page-type-title">Archives</h1>
-    
-    
-  
-  
-  
-  
-  
-  
-  <div class="archives-wrap">
-    <div class="archive-year-wrap">
-      <a href="/archives/2020" class="archive-year">2020</a>
-    </div>
-    <div class="archives">
-      
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/13/Cartoonization-of-human-face/" class="archive-article-date">
-  <time datetime="2020-02-13T03:39:47.000Z" itemprop="datePublished">02/13</time>
-</a>
+    <header class="article-header">
        
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/13/Cartoonization-of-human-face/"
-    >Cartoonization of human face</a
-  >
-</h2>
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Cartoonization of human face
+</h1>
   
 
     </header>
     
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/12/%E6%B4%BB%E4%BD%93%E6%A3%80%E6%B5%8B%E6%A6%82%E8%BF%B0/" class="archive-article-date">
-  <time datetime="2020-02-12T07:31:13.000Z" itemprop="datePublished">02/12</time>
-</a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/12/%E6%B4%BB%E4%BD%93%E6%A3%80%E6%B5%8B%E6%A6%82%E8%BF%B0/"
-    >活体检测概述</a
-  >
-</h2>
-  
 
-    </header>
     
-    
-  </div>
-</article>
-      
-  
-  
-      <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/12/Markdown-help/" class="archive-article-date">
-  <time datetime="2020-02-12T06:06:36.000Z" itemprop="datePublished">02/12</time>
+    <div class="article-meta">
+      <a href="/2020/02/13/Cartoonization-of-human-face/" class="article-date">
+  <time datetime="2020-02-13T03:39:47.000Z" itemprop="datePublished">2020-02-13</time>
 </a>
-       
-<h2 itemprop="name">
-  <a class="archive-article-title" href="/2020/02/12/Markdown-help/"
-    >Markdown help</a
-  >
-</h2>
-  
-
-    </header>
-    
-    
-  </div>
-</article>
       
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">380字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">1分钟</span>
+        </span>
+    </span>
+</div>
+
       
     </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h1 id="Cartoonization-of-human-face"><a href="#Cartoonization-of-human-face" class="headerlink" title="Cartoonization-of-human-face"></a>Cartoonization-of-human-face</h1><p>本项目将人脸照片转换为卡通头像：使用到 <strong>CycleGAN</strong> 和 <strong>G-means</strong> 两种方法</p>
+<h2 id="CycleGAN"><a href="#CycleGAN" class="headerlink" title="CycleGAN"></a>CycleGAN</h2><p>CycleGAN 其实就是一个 A→B 单向 GAN 加上一个 B→A 单向 GAN。两个 GAN 共享两个生成器，然后各自带一个判别器，所以加起来总共有两个判别器和两个生成器。一个单向 GAN 有两个 loss，而 CycleGAN 加起来总共有四个 loss。  </p>
+<p>CycleGAN <a href="https://github.com/junyanz/CycleGAN" target="_blank" rel="noopener">(论文及代码)</a> 原版原理图和公式如下：<br><img src="cyclegan_model.png" alt=""></p>
+<h3 id="数据源"><a href="#数据源" class="headerlink" title="数据源"></a>数据源</h3><p>人脸（839张）：celeba数据集  </p>
+<p>卡通头像（1000张）：调用 <a href="https://github.com/davrempe/domain-transfer-net/blob/master/datasets/bitmoji_api_info.md" target="_blank" rel="noopener">Bitmoji API</a> 生成</p>
+<h3 id="模型效果"><a href="#模型效果" class="headerlink" title="模型效果"></a>模型效果</h3><p>训练27个epoch后效果如下：  </p>
+<p><img src="cycleGAN.png" alt=""></p>
+<h2 id="K-means"><a href="#K-means" class="headerlink" title="K-means"></a>K-means</h2><p>一般的k-means算法需要首先确定聚类簇数k值，这里采用其改进算法G-means自动确定模型k值。将图片转换为HSV颜色空间，包括色调、饱和度、亮度。对于三个空间的每一组数据，先取k=1，通过k-means算法得到中心点，如果此簇数据服从高斯分布，则结束；如果此簇数据不服从高斯分布，用两个中心点替换此中心点，k=k+1，通过k-means算法得到新的k簇数据，看每簇数据是否服从高斯分布，由此进行递归。具体算法如下：  </p>
+<p><img src="G_means_algorithm.png" alt=""></p>
+<h3 id="模型效果-1"><a href="#模型效果-1" class="headerlink" title="模型效果"></a>模型效果</h3><p>本模型<strong>无需训练</strong>，经过参数调整，得到最合适的模型。  </p>
+<p>调整的参数主要有判断是否为高斯分布的置信度，数据最小数量等</p>
+<p><img src="G-means.png" alt=""></p>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/2020/02/13/Cartoonization-of-human-face/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GAN%EF%BC%8Cface/" rel="tag">GAN，face</a></li></ul>
+
+
+    </footer>
+
   </div>
+
   
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/02/12/%E6%B4%BB%E4%BD%93%E6%A3%80%E6%B5%8B%E6%A6%82%E8%BF%B0/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">活体检测概述</div>
+      </a>
+    
+  </nav>
+
+
   
 
   
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
 </section>
       <footer class="footer">
   <div class="outer">
@@ -262,6 +403,30 @@
 </script>
 
 
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
 
 
 <script>
